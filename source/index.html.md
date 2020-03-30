@@ -10,6 +10,11 @@ toc_footers:
 
 includes:
   - authorisation
+  - legacy_order_api
+  - feeds
+  - order_feed
+  - trade_feed
+  - json_mini_schema_markdown
 
 search: true
 ---
