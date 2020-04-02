@@ -1,11 +1,5 @@
 # Trade Feed
 
-The client trade feed exposes the events associated with the state transitions of a client's settlement obligations resulting from 1..* trades (filled orders).
-
-REST Feed properties:
-
-+ working set; `/client_trade_feed`
-
 > Sample request
 
 ```shell
@@ -19,9 +13,35 @@ Authorization: Bearer <id_token>
 ```json
 {
   "items": [
-    {"id": "https://trade.api.uat.jarden.io/client_trades/{id}", "tradeId": "28806116"},
-    {"id": "https://trade.api.uat.jarden.io/client_trades/{id}", "tradeId": "28806131"},
-    {"id": "https://trade.api.uat.jarden.io/client_trades/{id}", "tradeId": "28806114"},
+    {
+      "id": "https://trade.api.uat.jarden.io/client_trades/{id}",
+      "identifiers": [
+        {
+          "_type": "contractNoteReference",
+          "id": "33406792"
+        },
+        {
+          "_type": "contractNoteVersion",
+          "id": "1"
+        },
+        {
+          "_type": "counterTradeReference",
+          "id": "33406793"
+        },
+        {
+          "_type": "instructionOriginReference",
+          "id": "SE_ORDER"
+        },
+        {
+          "_type": "tradeOrderId",
+          "id": "3107528"
+        },
+        {
+          "_type": "tradeOrderReference",
+          "id": "AW6039263"
+        }
+      ]
+    }
   ],
   "links": {
     "self": "https://trade.api.uat.jarden.io/client_trade_feed/{id}",
@@ -30,11 +50,15 @@ Authorization: Bearer <id_token>
 }
 ```
 
+The client trade feed exposes the events associated with the state transitions of a client's settlement obligations resulting from 1..* trades (filled orders).
+
+REST Feed properties:
+
++ working set; `/client_trade_feed`
+
 Each feed item is a reference to a specific trade event, which can be retrieved through a `GET` on the link associated with the `id` key.  The definition of the trade can be found in the Trade section of Domain Resources.
 
 ## Trade Resource
-
-The following marked-up JSON structure describes the properties of an Trade.
 
 ```json
 {
@@ -205,3 +229,5 @@ The following marked-up JSON structure describes the properties of an Trade.
   }
 }
 ```
+
+The JSON structure describes the properties of an Trade.

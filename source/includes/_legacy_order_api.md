@@ -41,23 +41,6 @@ The header is formed as follows:
 
 ## Order Protocol over HTTP
 
-The sockets protocol will be replaced by an HTTP POST.  The two versions have similar protocol properties (both are stateless).  The HTTP API is defined as follows:
-
-+ Request:
-  - HTTP Method: `post`
-  - HTTP Content-Type: `text/plain`
-  - HTTP Message-Id: any universally unique identifier for the message (such as a UUID); when the client resends a message the same id MUST be used.
-  - Params : SSS text encoded order format.
-+ Response:
-  - Status Codes:
-    - `201 Created`; sync create of the order in SSS.
-    - `202 Accepted`; async create of the order in SSS.
-    - `401 Unauthorized`; service authentication failures.
-    - `422 Unprocessable` Entity; for any error status returned by SSS.
-    - `500..504`; for the various service non-functional failures.
-
-The response body may either define a success or a failure with a reason.
-
 > On success:
 
 ```shell
@@ -79,6 +62,24 @@ curl -d "#MMMTCSSSSSSSSbbbbbbbbbb"
      -H "Message-Id: 12dc1406-5290-4b1b-87a2-ec32a2b62719"
      -X POST https://order.api.jarden.io
 ```
+
+The sockets protocol will be replaced by an HTTP POST.  The two versions have similar protocol properties (both are stateless).  The HTTP API is defined as follows:
+
++ Request:
+  - HTTP Method: `post`
+  - HTTP Content-Type: `text/plain`
+  - HTTP Message-Id: any universally unique identifier for the message (such as a UUID); when the client resends a message the same id MUST be used.
+  - Params : SSS text encoded order format.
++ Response:
+  - Status Codes:
+    - `201 Created`; sync create of the order in SSS.
+    - `202 Accepted`; async create of the order in SSS.
+    - `401 Unauthorized`; service authentication failures.
+    - `422 Unprocessable` Entity; for any error status returned by SSS.
+    - `500..504`; for the various service non-functional failures.
+
+The response body may either define a success or a failure with a reason.
+
 
 ### Security Considerations
 

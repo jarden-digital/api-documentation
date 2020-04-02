@@ -1,12 +1,5 @@
 # Order Feed
 
-The order feed exposes the events associated with orders place on the Jarden platform, and the associated state transitions.
-
-
-REST Feed properties:
-
-+ working set; `/order_feed`
-
 > Sample request
 
 ```shell
@@ -20,7 +13,23 @@ Authorization: Bearer <id_token>
 ```json
 {
   "items": [
-    {"id": "https://order.api.uat.jarden.io/orders/{id}", "orderId": "3005046"},
+    {
+      "id": "https://order.api.uat.jarden.io/orders/{id}",
+      "identifiers": [
+        {
+          "_type": "orderIdentifier",
+          "id": "3105773"
+        },
+        {
+          "_type": "orderIdentifierVersion",
+          "id": "3"
+        },
+        {
+          "_type": "orderReference",
+          "id": "3105773"
+        }
+      ]
+    }
   ],
   "links": {
     "self": "https://order.api.uat.jarden.io/order_feed/{id}",
@@ -29,11 +38,16 @@ Authorization: Bearer <id_token>
 }
 ```
 
+The order feed exposes the events associated with orders place on the Jarden platform, and the associated state transitions.
+
+REST Feed properties:
+
++ working set; `/order_feed`
+
+
 Each feed item is a reference to a specific order event which can be retrieved through a `GET` on the link associated with the `id` key.  The definition of the Order feed resource is described in the Order Domain Resources section.
 
 ## Order Resource
-
-The following marked-up JSON structure describes the properties of an Order.
 
 ```json
 {
@@ -185,3 +199,52 @@ The following marked-up JSON structure describes the properties of an Order.
   ]
 }
 ```
+
+The JSON structure describes the properties of an Order.
+
+
+
+| Property/Object         | Type    |  Description_of_the_Interface_Property |
+| ---------               | -----   |  -----------  |
+|`_type`            | string   | Always `clientOrder`   |
+|`identifiers`      | Array  |  |
+|`identifiers.*._type`    | string |  |
+|`identifiers.*.id`       | string |  |
+|`orderOriginator`    | string  |  |
+|`state`    | string  | Enumeration of order states; created, allocated, confirmed, placed, part_filled, filled, expired, deleted, rejected)  |
+|`timestamps`    | Array |  |
+|`timestamps.createdTime`    | ISO8601_Time | The time the order was created within the OMS.  |
+|`timestamps.lastModifiedTime`    | ISO8601_Time | Time of modification of the order.  |
+|`timestamps.expiresAt`    | ISO8601_Time | The order expiry time. |
+|`financialInstrument`    | Object | Instrument microformat |
+|`financialInstrument.instrumentCode`    | string  |  |
+|`financialInstrument.marketId`          | string |  |
+|`specification`    |  |  |
+|`specification.orderSide`    |  |  |
+|`specification.orderDate`    |  |  |
+|`specification.orderQuantity`    |  |  |
+|`specification.canWorkOrder`    |  |  |
+|`specification.participatingClientClass`    |  |  |
+|`specification.executionStrategy`    |  |  |
+|`specification.executionStrategy._type`    |  |  |
+|`specification.executionStrategy.basis`    |  |  |
+|`specification.inForceStrategy`    |  |  |
+|`settlementInstructions`    |  |  |
+|`settlementInstructions.settlementCurrency`   |  |  |
+|`settlementInstructions.settlementInstrument` |  |  |
+|`brokerage`                                   |  |  |
+|`brokerage.priceScheduleCode`                 |  |  |
+|`orderExecution`                              |  |  |
+|`orderExecution.workingOrder`                 |  |  |
+|`orderExecution.quantityBooked`    |  |  |
+|`orderExecution.quantityBooked.unitCode`    |  |  |
+|`orderExecution.quantityBooked.value`    |  |  |
+|`orderParties`    |  |  |
+|`orderParties.*._type`    |  |  |
+|`orderParties.*.identifiers`    |  |  |
+|`orderParties.*.identifiers.*._type`    |  |  |
+|`orderParties.*.identifiers.*.id`    |  |  |
+|`orderParties.*.partyExtensions` |  |  |
+|`.partyExtensions.*._type` |  |  |
+|`.partyExtensions.*.registrationLines` |  |  |
+|`.partyExtensions.*.registrationCountryCode` |  |  |
